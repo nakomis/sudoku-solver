@@ -29,7 +29,9 @@ public class SudokuGui {
 			}
 			for (int j = 0; j < 9; j++) {
 				int digit = Character.getNumericValue(inputLine.charAt(j));
-				presetDigits.put(new AbstractMap.SimpleEntry<Integer, Integer>(j, i), digit);
+				if (digit != 0) {
+					presetDigits.put(new AbstractMap.SimpleEntry<Integer, Integer>(j, i), digit);
+				}
 			}
 			input.add(inputLine);
 		}
