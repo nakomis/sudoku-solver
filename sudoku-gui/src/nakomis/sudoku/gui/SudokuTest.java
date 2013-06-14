@@ -46,10 +46,41 @@ public class SudokuTest {
 		"082100400"
 	};
 	
+	private static String[] multipleSolutionSudoku = {
+		"000006250",
+		"000000030",
+		"000012980",
+		"005003000",
+		"020701060",
+		"000800100",
+		"036280000",
+		"070090000",
+		"082100400"
+	};
+	
+	private static String[] manyMultipleSolutionSudoku = {
+		"000000250",
+		"000000030",
+		"000012980",
+		"005003000",
+		"020701060",
+		"000800100",
+		"036280000",
+		"070090000",
+		"082100400"
+	};
+	
 	public static void main(String[] args) {
+		System.out.println("Easy");
 		run(easySudoku);
+		System.out.println("Moderate");
 		run(moderateSudoku);
+		System.out.println("Extreme");
 		run(extremeSudoku);
+		System.out.println("Multiple Solutions");
+		run(multipleSolutionSudoku);
+		System.out.println("Many Multiple Solutions");
+		run(manyMultipleSolutionSudoku);
 	}
 	
 	private static void run(String[] sudokuGrid) {
