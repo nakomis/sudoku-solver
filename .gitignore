@@ -4,3 +4,23 @@
 *.jar
 *.war
 *.ear
+
+# Temp files
+*~
+\#*\#
+*.sw[op]
+.DS_Store
+
+# Build locations
+bin/
+target/
+test-output/
+*.class
+
+# IDE stuff, Eclipse and IntelliJ
+.project
+.classpath
+.settings/
+.metadata/
+.idea/
+*.iml
