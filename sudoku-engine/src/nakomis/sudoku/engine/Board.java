@@ -54,7 +54,7 @@ public class Board {
 		return ((int) y / 3) * 3 + ((int) x / 3);
 	}
 
-	public void run() {
+	public void runRules() {
 		boolean progressMade = false;
 		// Run 'the rules' for each group. If no progress is made, we're at a dead end and will need to be split
 		for (Group group : groups) {

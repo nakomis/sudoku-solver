@@ -17,7 +17,7 @@ public class Group {
 	/**
 	 * Runs the rules "<b>Must have each digit 1-9</b>" and "<b>Digits cannot be duplicated</b>"
 	 * 
-	 * @return <code>true</code> if any progress has been made (i.e. cells solved), <code>false</code> otherwise
+	 * @return <code>true</code> if any progress has been made (i.e. cells solved or possible values reduced), <code>false</code> otherwise
 	 * @throws SudokuException if an inconsistency is found, i.e. two or more cells have the same value, or a give value is not possible for any cell
 	 */
 	public boolean checkForProgress() throws SudokuException {
@@ -37,7 +37,7 @@ public class Group {
 			if (possibleCells.size() == 1) {
 				Cell cell = possibleCells.iterator().next();
 				if (!cell.isSolved()) {
-					possibleCells.iterator().next().setValue(i);
+					cell.setValue(i);
 					progress = true;
 				}
 			}

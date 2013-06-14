@@ -23,7 +23,7 @@ public class SudokuEngine {
 			Set<Board> boardsToRemove = new HashSet<Board>();
 			Set<Board> boardsToAdd = new HashSet<Board>();
 			for (Board board : boards) {
-				board.run();
+				board.runRules();
 				if (board.isOnFire()) {
 					boardsToRemove.add(board);
 				}
