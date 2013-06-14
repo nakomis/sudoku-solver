@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import nakomis.sudoku.engine.Solution;
 import nakomis.sudoku.engine.SudokuEngine;
 
 public class SudokuGui {
@@ -34,7 +36,15 @@ public class SudokuGui {
 		br.close();
 		System.out.println(input);
 		SudokuEngine engine = new SudokuEngine(presetDigits);
-		engine.solve();
+		Set<Solution> solutions = engine.solve();
+		int solutionIndex = 1;
+		for (Solution solution : solutions) {
+			System.out.println(MessageFormat.format("Solution #{0}", solutionIndex++));
+			System.out.println(solution.toString());
+		}
+		if (solutions.size() == 0) {
+			System.out.println("The sudoku is invalid and has no consistent answer");
+		}
 	}
 
 }
