@@ -4,21 +4,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cell {
-	private final Set<Integer> possibleValues;
+	private final Set<Integer> possibleValues = new HashSet<Integer>();
 	private final Integer presetValue;
 
 	public Cell() {
 		this.presetValue = null;
 		// Initialize the possible values with 1..9
-		this.possibleValues = new HashSet<Integer>();
 		for (int i = 1; i < 10; i++) {
 			getPossibleValues().add(i);
 		}
 	}
 
 	public Cell(int presetValue) {
-		this.possibleValues = null;
 		this.presetValue = presetValue;
+		this.possibleValues.add(presetValue);
 	}
 
 	public Integer getPresetValue() {
@@ -42,7 +41,18 @@ public class Cell {
 		possibleValues.add(value);
 	}
 
-	public void removePossibleVelue(int value) {
-		possibleValues.remove(value);
+	/**
+	 * Removes a given value from the set of possible values
+	 * @return <code>true</code> if the value was in the possible values (i.e. progress has been made), <code>false</code> otherwise
+	 */
+	public boolean removePossibleValue(int value) {
+		return possibleValues.remove(value);
+	}
+
+	public Integer getSolvedValue() throws SudokuException {
+		if (!isSolved()) {
+			throw new SudokuException();
+		}
+		return possibleValues.iterator().next();
 	}
 }

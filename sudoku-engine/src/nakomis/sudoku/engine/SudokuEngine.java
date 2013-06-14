@@ -26,6 +26,7 @@ public class SudokuEngine {
 					boards.remove(board);
 				}
 				if (board.isAtDeadEnd()) {
+					boards.remove(board);
 					boards.addAll(board.split());
 				}
 				if (board.isSolved()) {
