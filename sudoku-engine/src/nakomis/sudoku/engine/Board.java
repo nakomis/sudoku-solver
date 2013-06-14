@@ -12,6 +12,8 @@ import java.util.Set;
 public class Board {
 	private final Set<Cell> cells;
 	private final Set<Group> groups;
+	private boolean atDeadEnd;
+	private boolean onFire;
 	
 	public Board(Map<Entry<Integer, Integer>, Integer> presetDigits) {
 		cells = new HashSet<Cell>();
@@ -51,18 +53,20 @@ public class Board {
 	}
 
 	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean isOnFire() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean isAtDeadEnd() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean progressMade = false;
+		// Run 'the rules' for each group. If no progress is made, we're at a dead end and will need to be split
+		for (Group group : groups) {
+			try {
+				progressMade |= group.checkForProgress();
+			} catch (SudokuException e) {
+				this.setOnFire(true);
+			}
+		}
+		if (!progressMade) {
+			setAtDeadEnd(true);
+		} else {
+			setAtDeadEnd(false);
+		}
 	}
 
 	public Collection<Board> split() {
@@ -71,13 +75,32 @@ public class Board {
 	}
 
 	public boolean isSolved() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isSolved = true;
+		for (Cell cell : cells) {
+			isSolved &= cell.isSolved();
+		}
+		return isSolved;
 	}
 
 	public Solution getSolution() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public boolean isAtDeadEnd() {
+		return atDeadEnd;
+	}
+
+	private void setAtDeadEnd(boolean atDeadEnd) {
+		this.atDeadEnd = atDeadEnd;
+	}
+	
+	public boolean isOnFire() {
+		return onFire;
+	}
+	
+	private void setOnFire(boolean onFire) {
+		this.onFire = onFire;
 	}
 
 }
