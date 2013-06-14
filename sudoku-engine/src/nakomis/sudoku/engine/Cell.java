@@ -6,16 +6,22 @@ import java.util.Set;
 public class Cell {
 	private final Set<Integer> possibleValues = new HashSet<Integer>();
 	private final Integer presetValue;
+	private final int x;
+	private final int y;
 
-	public Cell() {
+	public Cell(int x, int y) {
 		this.presetValue = null;
+		this.x = x;
+		this.y = y;
 		// Initialize the possible values with 1..9
 		for (int i = 1; i < 10; i++) {
 			getPossibleValues().add(i);
 		}
 	}
 
-	public Cell(int presetValue) {
+	public Cell(int presetValue, int x, int y) {
+		this.x = x;
+		this.y = y;
 		this.presetValue = presetValue;
 		this.possibleValues.add(presetValue);
 	}
@@ -54,5 +60,17 @@ public class Cell {
 			throw new RuntimeException("Attempt to get solved value from unsolved cell");
 		}
 		return possibleValues.iterator().next();
+	}
+
+	public boolean equalsXY(Cell that) {
+		if (that == null) {
+			return false;
+		}
+		return this.x == that.x && this.y == that.y;
+	}
+
+	public void setPossibleValues(Set<Integer> possibleValues) {
+		this.possibleValues.clear();
+		this.possibleValues.addAll(possibleValues);
 	}
 }

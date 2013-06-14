@@ -12,10 +12,12 @@ import java.util.Set;
 public class Board {
 	private final List<Cell> cells;
 	private final Set<Group> groups;
+	private final Map<Entry<Integer, Integer>, Integer> presetDigits;
 	private boolean atDeadEnd;
 	private boolean onFire;
 	
 	public Board(Map<Entry<Integer, Integer>, Integer> presetDigits) {
+		this.presetDigits = presetDigits;
 		cells = new ArrayList<Cell>();
 		groups = new HashSet<Group>();
 		List<Group> rows = new ArrayList<Group>();
@@ -32,9 +34,9 @@ public class Board {
 				Integer preset = presetDigits.get(new AbstractMap.SimpleEntry<Integer, Integer>(x, y));
 				Cell cell;
 				if (preset == null) {
-					cell = new Cell();
+					cell = new Cell(x, y);
 				} else {
-					cell = new Cell(preset);
+					cell = new Cell(preset, x, y);
 				}
 				cells.add(cell);
 				columns.get(x).add(cell);
@@ -70,8 +72,50 @@ public class Board {
 	}
 
 	public Collection<Board> split() {
-		// TODO Auto-generated method stub
-		return null;
+		Cell targetCell = null;
+		int minPossibleValues = 10;
+		for (Cell cell : cells) {
+			if (!cell.isSolved() && cell.getPossibleValues().size() < minPossibleValues) {
+				targetCell = cell;
+				minPossibleValues = cell.getPossibleValues().size();
+			}
+		}
+		Collection<Board> splitBoard = new HashSet<Board>();
+		for (Integer possibleValue : targetCell.getPossibleValues()) {
+			Board board = this.clone(targetCell, possibleValue);
+			splitBoard.add(board);
+		}
+		return splitBoard;
+	}
+
+	private Board clone(Cell targetCell, Integer possibleValue) {
+		Board newBoard = new Board(presetDigits);
+		for (Cell cell : this.cells) {
+			newBoard.setCellValues(cell, cell.getPossibleValues());
+		}
+		newBoard.setCell(targetCell, possibleValue);
+		return newBoard;
+	}
+
+	private void setCell(Cell targetCell, Integer possibleValue) {
+		for (Cell cell : cells) {
+			if (cell.equalsXY(targetCell)) {
+				try {
+					cell.setValue(possibleValue);
+				} catch (SudokuException e) {
+					this.setOnFire(true);
+				}
+			}
+		}
+	}
+
+	private void setCellValues(Cell targetCell, Set<Integer> possibleValues) {
+		for (Cell cell : cells) {
+			if (cell.equalsXY(targetCell)) {
+				cell.setPossibleValues(possibleValues);
+				break;
+			}
+		}
 	}
 
 	public boolean isSolved() {

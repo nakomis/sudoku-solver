@@ -20,21 +20,26 @@ public class SudokuEngine {
 		Set<Solution> solutions = new HashSet<Solution>();
 		while (!done) {
 			boolean allSolved = true;
+			Set<Board> boardsToRemove = new HashSet<Board>();
+			Set<Board> boardsToAdd = new HashSet<Board>();
 			for (Board board : boards) {
 				board.run();
 				if (board.isOnFire()) {
-					boards.remove(board);
+					boardsToRemove.add(board);
 				}
 				if (board.isAtDeadEnd()) {
-					boards.remove(board);
-					boards.addAll(board.split());
+					boardsToRemove.add(board);
+					boardsToAdd.addAll(board.split());
 				}
 				if (board.isSolved()) {
 					solutions.add(board.getSolution());
+					boardsToRemove.add(board);
 				} else {
 					allSolved = false;
 				}
 			}
+			boards.removeAll(boardsToRemove);
+			boards.addAll(boardsToAdd);
 			done = allSolved;
 		}
 		return solutions;
