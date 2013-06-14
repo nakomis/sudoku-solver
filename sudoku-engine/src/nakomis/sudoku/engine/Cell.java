@@ -49,9 +49,9 @@ public class Cell {
 		return possibleValues.remove(value);
 	}
 
-	public Integer getSolvedValue() throws SudokuException {
+	public Integer getSolvedValue() {
 		if (!isSolved()) {
-			throw new SudokuException();
+			throw new RuntimeException("Attempt to get solved value from unsolved cell");
 		}
 		return possibleValues.iterator().next();
 	}

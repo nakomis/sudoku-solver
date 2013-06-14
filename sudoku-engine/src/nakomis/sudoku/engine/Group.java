@@ -22,7 +22,7 @@ public class Group {
 	 */
 	public boolean checkForProgress() throws SudokuException {
 		boolean progress = false;
-		for (int i = 1; i < 9; i++) {
+		for (int i = 1; i < 10; i++) {
 			// Group must have each digit 1-9, therefore if only one cell can possibly be i, then it must be i
 			Set<Cell> possibleCells = new HashSet<Cell>();
 			for (Cell cell : cells) {
@@ -35,8 +35,11 @@ public class Group {
 				throw new SudokuException();
 			}
 			if (possibleCells.size() == 1) {
-				possibleCells.iterator().next().setValue(i);
-				progress = true;
+				Cell cell = possibleCells.iterator().next();
+				if (!cell.isSolved()) {
+					possibleCells.iterator().next().setValue(i);
+					progress = true;
+				}
 			}
 		}
 		

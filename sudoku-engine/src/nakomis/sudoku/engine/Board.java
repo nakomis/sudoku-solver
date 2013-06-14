@@ -10,13 +10,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 public class Board {
-	private final Set<Cell> cells;
+	private final List<Cell> cells;
 	private final Set<Group> groups;
 	private boolean atDeadEnd;
 	private boolean onFire;
 	
 	public Board(Map<Entry<Integer, Integer>, Integer> presetDigits) {
-		cells = new HashSet<Cell>();
+		cells = new ArrayList<Cell>();
 		groups = new HashSet<Group>();
 		List<Group> rows = new ArrayList<Group>();
 		List<Group> columns = new ArrayList<Group>();
@@ -27,8 +27,8 @@ public class Board {
 			quadrants.add(new Group());
 		}
 		
-		for (int x = 0; x < 9; x++) {
-			for (int y = 0; y < 9; y++) {
+		for (int y = 0; y < 9; y++) {
+			for (int x = 0; x < 9; x++) {
 				Integer preset = presetDigits.get(new AbstractMap.SimpleEntry<Integer, Integer>(x, y));
 				Cell cell;
 				if (preset == null) {
@@ -39,7 +39,7 @@ public class Board {
 				cells.add(cell);
 				columns.get(x).add(cell);
 				rows.get(y).add(cell);
-				quadrants.get(findQuadrant(x, y)).add(cell);
+				quadrants.get(findRegion(x, y)).add(cell);
 			}
 		}
 		
@@ -48,8 +48,8 @@ public class Board {
 		groups.addAll(quadrants);
 	}
 
-	private int findQuadrant(int x, int y) {
-		return ((int) y / 3) * 3 + x;
+	private int findRegion(int x, int y) {
+		return ((int) y / 3) * 3 + ((int) x / 3);
 	}
 
 	public void run() {
@@ -83,8 +83,11 @@ public class Board {
 	}
 
 	public Solution getSolution() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Integer> values = new ArrayList<Integer>();
+		for (Cell cell : cells) {
+			values.add(cell.getSolvedValue());
+		}
+		return new Solution(values);
 	}
 	
 	public boolean isAtDeadEnd() {
