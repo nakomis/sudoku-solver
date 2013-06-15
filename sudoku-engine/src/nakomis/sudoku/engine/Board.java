@@ -51,7 +51,7 @@ public class Board {
 	}
 
 	private int findRegion(int x, int y) {
-		return ((int) y / 3) * 3 + ((int) x / 3);
+		return (y / 3) * 3 + (x / 3);
 	}
 
 	public void runRules() {
@@ -82,18 +82,18 @@ public class Board {
 		}
 		Collection<Board> splitBoard = new HashSet<Board>();
 		for (Integer possibleValue : targetCell.getPossibleValues()) {
-			Board board = this.clone(targetCell, possibleValue);
+			Board board = this.cloneAndSetValue(targetCell, possibleValue);
 			splitBoard.add(board);
 		}
 		return splitBoard;
 	}
 
-	private Board clone(Cell targetCell, Integer possibleValue) {
+	private Board cloneAndSetValue(Cell targetCell, Integer value) {
 		Board newBoard = new Board(presetDigits);
 		for (Cell cell : this.cells) {
-			newBoard.setCellValues(cell, cell.getPossibleValues());
+			newBoard.setCellPossibleValues(cell, cell.getPossibleValues());
 		}
-		newBoard.setCell(targetCell, possibleValue);
+		newBoard.setCell(targetCell, value);
 		return newBoard;
 	}
 
@@ -109,7 +109,7 @@ public class Board {
 		}
 	}
 
-	private void setCellValues(Cell targetCell, Set<Integer> possibleValues) {
+	private void setCellPossibleValues(Cell targetCell, Set<Integer> possibleValues) {
 		for (Cell cell : cells) {
 			if (cell.equalsXY(targetCell)) {
 				cell.setPossibleValues(possibleValues);
