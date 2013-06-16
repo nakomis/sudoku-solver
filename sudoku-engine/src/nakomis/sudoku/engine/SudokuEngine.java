@@ -1,15 +1,16 @@
 
 package nakomis.sudoku.engine;
 
+import java.awt.Point;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 public class SudokuEngine {
-	private final Map<Map.Entry<Integer, Integer>, Integer> presetDigits;
+	private final Map<Point, Integer> presetDigits;
 	private final Set<Board> boards = new HashSet<Board>();
 	
-	public SudokuEngine(final Map<Map.Entry<Integer,Integer>, Integer> presetDigits) {
+	public SudokuEngine(final Map<Point, Integer> presetDigits) {
 		this.presetDigits = presetDigits;
 	}
 
@@ -45,7 +46,7 @@ public class SudokuEngine {
 		return solutions;
 	}
 
-	public Map<Map.Entry<Integer, Integer>, Integer> getPresetDigits() {
+	public Map<Point, Integer> getPresetDigits() {
 		return presetDigits;
 	}
 }

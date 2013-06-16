@@ -1,22 +1,21 @@
 package nakomis.sudoku.engine;
 
-import java.util.AbstractMap;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 public class Board {
 	private final List<Cell> cells;
 	private final Set<Group> groups;
-	private final Map<Entry<Integer, Integer>, Integer> presetDigits;
+	private final Map<Point, Integer> presetDigits;
 	private boolean atDeadEnd;
 	private boolean onFire;
 	
-	public Board(Map<Entry<Integer, Integer>, Integer> presetDigits) {
+	public Board(Map<Point, Integer> presetDigits) {
 		this.presetDigits = presetDigits;
 		cells = new ArrayList<Cell>();
 		groups = new HashSet<Group>();
@@ -31,7 +30,7 @@ public class Board {
 		
 		for (int y = 0; y < 9; y++) {
 			for (int x = 0; x < 9; x++) {
-				Integer preset = presetDigits.get(new AbstractMap.SimpleEntry<Integer, Integer>(x, y));
+				Integer preset = presetDigits.get(new Point(x, y));
 				Cell cell;
 				if (preset == null) {
 					cell = new Cell(x, y);

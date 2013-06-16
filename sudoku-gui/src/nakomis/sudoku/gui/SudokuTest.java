@@ -1,6 +1,6 @@
 package nakomis.sudoku.gui;
 
-import java.util.AbstractMap;
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -84,12 +84,12 @@ public class SudokuTest {
 	}
 	
 	private static void run(String[] sudokuGrid) {
-		Map<Map.Entry<Integer, Integer>, Integer> presetDigits = new HashMap<Map.Entry<Integer, Integer>, Integer>();
+		Map<Point, Integer> presetDigits = new HashMap<Point, Integer>();
 		for (int row = 0; row < 9; row++) {
 			for (int column = 0; column < 9; column++) {
 				int digit = Character.getNumericValue(sudokuGrid[row].charAt(column));
 				if (digit != 0) {
-					presetDigits.put(new AbstractMap.SimpleEntry<Integer,Integer>(column, row), digit);
+					presetDigits.put(new Point(column, row), digit);
 				}
 			}
 		}
